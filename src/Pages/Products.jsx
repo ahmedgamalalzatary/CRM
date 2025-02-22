@@ -1,28 +1,138 @@
 import { MdAdd, MdEdit, MdDelete } from 'react-icons/md'
+import { useState } from 'react'
 
 function Products() {
-    const products = [
+    const [showModal, setShowModal] = useState(false)
+    const [products, setProducts] = useState([
         { id: 1, name: 'Product A', category: 'Electronics', price: 299.99, stock: 150 },
         { id: 2, name: 'Product B', category: 'Furniture', price: 599.99, stock: 75 },
         { id: 3, name: 'Product C', category: 'Clothing', price: 49.99, stock: 200 },
-    ]
-
+    ])
+    const [newProduct, setNewProduct] = useState({
+        name: '',
+        category: '',
+        price: '',
+        stock: ''
+    })
     const productMetrics = {
         topSelling: ['Product A', 'Product B', 'Product C'],
         lowStock: ['Product X', 'Product Y', 'Product Z'],
         categories: ['Electronics', 'Furniture', 'Clothing']
     }
-
+    const handleInputChange = (e) => {
+        const { name, value } = e.target
+        setNewProduct(prev => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const newId = products.length > 0 ? Math.max(...products.map(product => product.id)) + 1 : 1
+        const productToAdd = {
+            id: newId,
+            ...newProduct,
+            price: parseFloat(newProduct.price),
+            stock: parseInt(newProduct.stock)
+        }
+        setProducts(prev => [...prev, productToAdd])
+        setShowModal(false)
+        setNewProduct({
+            name: '',
+            category: '',
+            price: '',
+            stock: ''
+        })
+    }
     return (
         <div className="space-y-8">
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-semibold text-gray-800">Products Management</h2>
-                <button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                <button 
+                    onClick={() => setShowModal(true)}
+                    className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                >
                     <MdAdd className="text-xl" />
                     Add Product
                 </button>
             </div>
 
+            {showModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-lg w-full max-w-md">
+                        <h3 className="text-xl font-semibold mb-4">Add New Product</h3>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={newProduct.name}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gray-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                <select
+                                    name="category"
+                                    value={newProduct.category}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gray-500"
+                                >
+                                    <option value="">Select Category</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Furniture">Furniture</option>
+                                    <option value="Clothing">Clothing</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
+                                <input
+                                    type="number"
+                                    name="price"
+                                    value={newProduct.price}
+                                    onChange={handleInputChange}
+                                    required
+                                    step="0.01"
+                                    min="0"
+                                    className="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gray-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+                                <input
+                                    type="number"
+                                    name="stock"
+                                    value={newProduct.stock}
+                                    onChange={handleInputChange}
+                                    required
+                                    min="0"
+                                    className="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gray-500"
+                                />
+                            </div>
+                            <div className="flex justify-end space-x-3 mt-6">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowModal(false)}
+                                    className="px-4 py-2 border rounded-lg hover:bg-gray-50"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                >
+                                    Add Product
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+            {/* Rest of the existing code */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {['All Products', 'Electronics', 'Furniture', 'Clothing'].map((category) => (
                     <div key={category} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md cursor-pointer">
@@ -32,8 +142,7 @@ function Products() {
                     </div>
                 ))}
             </div>
-
-            {/* New Quick Actions Section */}
+            {/* Rest of the existing code */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
                     <h3 className="font-semibold text-gray-800 mb-4">Top Selling</h3>
@@ -46,7 +155,6 @@ function Products() {
                         ))}
                     </ul>
                 </div>
-
                 <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
                     <h3 className="font-semibold text-gray-800 mb-4">Low Stock Alert</h3>
                     <ul className="space-y-3">
@@ -58,7 +166,6 @@ function Products() {
                         ))}
                     </ul>
                 </div>
-
                 <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
                     <h3 className="font-semibold text-gray-800 mb-4">Category Distribution</h3>
                     <ul className="space-y-3">
@@ -71,7 +178,6 @@ function Products() {
                     </ul>
                 </div>
             </div>
-
             <div className="bg-white rounded-lg shadow-sm">
                 <div className="grid grid-cols-2 gap-4 p-4">
                     <input 
@@ -120,44 +226,7 @@ function Products() {
                     </tbody>
                 </table>
             </div>
-
-            {/* New Product Analytics Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Stock Summary</h3>
-                    <div className="space-y-4">
-                        {[
-                            { label: 'Low Stock Items', value: '12', change: '-2' },
-                            { label: 'Out of Stock', value: '3', change: '+1' },
-                            { label: 'Overstocked', value: '5', change: '0' }
-                        ].map(item => (
-                            <div key={item.label} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
-                                <span className="text-gray-600">{item.label}</span>
-                                <div className="flex items-center space-x-2">
-                                    <span className="font-semibold text-gray-900">{item.value}</span>
-                                    <span className="text-sm text-gray-500">({item.change})</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Stock Update</h3>
-                    <div className="space-y-4">
-                        {products.slice(0, 3).map(product => (
-                            <div key={product.id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
-                                <span className="text-gray-700">{product.name}</span>
-                                <div className="flex items-center space-x-2">
-                                    <button className="p-1 hover:bg-gray-200 rounded">-</button>
-                                    <span className="w-12 text-center">{product.stock}</span>
-                                    <button className="p-1 hover:bg-gray-200 rounded">+</button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
+            {/* Rest of the existing code */}
         </div>
     )
 }

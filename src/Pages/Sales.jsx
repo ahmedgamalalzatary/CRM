@@ -1,9 +1,19 @@
+import { useState } from 'react'
+
 function Sales() {
-    const salesData = [
+    const [showModal, setShowModal] = useState(false)
+    const [salesData, setSalesData] = useState([
         { id: 1, customer: 'John Doe', product: 'Product A', amount: 1200, date: '2023-01-15' },
         { id: 2, customer: 'Jane Smith', product: 'Product B', amount: 850, date: '2023-01-16' },
         { id: 3, customer: 'Bob Johnson', product: 'Product C', amount: 2300, date: '2023-01-17' },
-    ]
+    ])
+
+    const [newSale, setNewSale] = useState({
+        customer: '',
+        product: '',
+        amount: '',
+        date: new Date().toISOString().split('T')[0]
+    })
 
     const salesMetrics = {
         recentOrders: [
@@ -18,14 +28,112 @@ function Sales() {
         ]
     }
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target
+        setNewSale(prev => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const newId = salesData.length > 0 ? Math.max(...salesData.map(sale => sale.id)) + 1 : 1
+        const saleToAdd = {
+            id: newId,
+            ...newSale,
+            amount: parseFloat(newSale.amount)
+        }
+        setSalesData(prev => [...prev, saleToAdd])
+        setShowModal(false)
+        setNewSale({
+            customer: '',
+            product: '',
+            amount: '',
+            date: new Date().toISOString().split('T')[0]
+        })
+    }
+
     return (
         <div className="space-y-8">
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-semibold text-gray-800">Sales</h2>
-                <button className="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200">
+                <button 
+                    onClick={() => setShowModal(true)}
+                    className="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200"
+                >
                     New Sale
                 </button>
             </div>
+
+            {showModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-lg w-full max-w-md">
+                        <h3 className="text-xl font-semibold mb-4">Add New Sale</h3>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Customer Name</label>
+                                <input
+                                    type="text"
+                                    name="customer"
+                                    value={newSale.customer}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gray-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Product</label>
+                                <input
+                                    type="text"
+                                    name="product"
+                                    value={newSale.product}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gray-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Amount</label>
+                                <input
+                                    type="number"
+                                    name="amount"
+                                    value={newSale.amount}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gray-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                                <input
+                                    type="date"
+                                    name="date"
+                                    value={newSale.date}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="w-full p-2 border rounded-lg focus:ring-1 focus:ring-gray-500"
+                                />
+                            </div>
+                            <div className="flex justify-end space-x-3 mt-6">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowModal(false)}
+                                    className="px-4 py-2 border rounded-lg hover:bg-gray-50"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+                                >
+                                    Add Sale
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
 
             {/* New Sales Overview Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
