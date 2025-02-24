@@ -1,14 +1,11 @@
-import { useTranslation } from 'react-i18next'
 import { sidebarItems } from '../config/sidebarConfig'
 
 function SideBar({ activePage, setActivePage }) {
-    const { t } = useTranslation()
-    
     return (
         <div className="w-64 bg-gradient-to-b from-[#1a1c2e] to-[#2d2f45] min-h-screen p-4 text-white">
             <div className="mb-8 border-b border-gray-700/50 pb-6">
                 <h1 className="text-2xl font-bold text-center bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
-                    {t('crmSystem')}
+                    CRM System
                 </h1>
             </div>
             <nav className="space-y-1">
@@ -27,7 +24,7 @@ function SideBar({ activePage, setActivePage }) {
                             `}
                         >
                             <Icon className="mr-3 text-xl" />
-                            <span className="text-sm font-medium">{t(item.id)}</span>
+                            <span className="text-sm font-medium">{item.label}</span>
                         </button>
                     )
                 })}

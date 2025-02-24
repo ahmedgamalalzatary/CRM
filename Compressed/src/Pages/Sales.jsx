@@ -1,8 +1,6 @@
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 
 function Sales() {
-    const { t } = useTranslation()
     const [showModal, setShowModal] = useState(false)
     const [salesData, setSalesData] = useState([
         { id: 1, customer: 'John Doe', product: 'Product A', amount: 1200, date: '2023-01-15' },
@@ -59,12 +57,12 @@ function Sales() {
     return (
         <div className="space-y-8">
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-semibold text-gray-800">{t('sales')}</h2>
+                <h2 className="text-2xl font-semibold text-gray-800">Sales</h2>
                 <button 
                     onClick={() => setShowModal(true)}
                     className="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200"
                 >
-                    {t('newSale')}
+                    New Sale
                 </button>
             </div>
 
@@ -204,7 +202,7 @@ function Sales() {
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
-                            {[t('id'), t('customerName'), t('product'), t('amount'), t('date')].map((header) => (
+                            {['ID', 'Customer', 'Product', 'Amount', 'Date'].map((header) => (
                                 <th key={header} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     {header}
                                 </th>

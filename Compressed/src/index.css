@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 /* Cursor Styles */
 * {
     cursor: default;
@@ -64,59 +63,4 @@ input[type="text"], input[type="email"], input[type="password"], textarea {
 /* Smooth Scrolling */
 html {
     scroll-behavior: smooth;
-}
-
-/* RTL Support */
-.direction-rtl {
-    @apply font-[system-ui];
-}
-
-.direction-rtl .sidebar {
-    @apply right-0;
-}
-
-.direction-rtl .main-content {
-    @apply mr-64 ml-0;
-}
-
-/* Additional RTL classes */
-.direction-rtl .search-icon {
-    @apply right-3 left-auto;
-}
-
-.direction-rtl .notification-badge {
-    @apply -right-1 left-auto;
-}
-
-.direction-rtl .mr-3 {
-    @apply ml-3 mr-0;
-}
-
-.direction-rtl .space-x-6 > * + * {
-    @apply mr-6 ml-0;
-}
-
-.direction-rtl .pl-4 {
-    @apply pr-4 pl-0;
-}
-
-.direction-rtl .pl-6 {
-    @apply pr-6 pl-0;
-}
-
-.direction-rtl .border-l {
-    @apply border-r border-l-0;
-}
-
-/* LTR Support */
-.direction-ltr {
-    @apply font-sans;
-}
-
-.direction-ltr .sidebar {
-    @apply left-0;
-}
-
-.direction-ltr .main-content {
-    @apply ml-64 mr-0;
 }
