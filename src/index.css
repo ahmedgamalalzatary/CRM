@@ -1,7 +1,11 @@
 @import "tailwindcss";
+<<<<<<< HEAD
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+=======
+
+>>>>>>> 85cc2c8f87b6224711140033850a91c38901943b
 
 /* Cursor Styles */
 * {
@@ -68,6 +72,7 @@ html {
     scroll-behavior: smooth;
 }
 
+<<<<<<< HEAD
 /* Custom animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
@@ -125,6 +130,8 @@ html {
   animation: slide-in 0.5s forwards;
 }
 
+=======
+>>>>>>> 85cc2c8f87b6224711140033850a91c38901943b
 /* RTL Support */
 .direction-rtl {
     @apply font-[system-ui];
@@ -179,6 +186,7 @@ html {
 .direction-ltr .main-content {
     @apply ml-64 mr-0;
 }
+<<<<<<< HEAD
 
 /* RTL support adjustments */
 [dir="rtl"] .ml-1 {
@@ -430,3 +438,5 @@ html {
 [dir="rtl"] .md\:w-60 {
   width: 15rem;
 }
+=======
+>>>>>>> 85cc2c8f87b6224711140033850a91c38901943b

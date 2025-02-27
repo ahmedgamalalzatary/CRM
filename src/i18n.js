@@ -208,6 +208,10 @@ const resources = {
       productsManagement: 'إدارة المنتجات',
       addSale: 'إضافة بيع',
       addClient: 'إضافة عميل',
+<<<<<<< HEAD
+=======
+      addProduct: 'إضافة منتج',
+>>>>>>> 85cc2c8f87b6224711140033850a91c38901943b
 
       // New Translations
       months: {
@@ -218,7 +222,15 @@ const resources = {
       customers: {
         johnDoe: 'جون دو',
         janeSmith: 'جين سميث'
+<<<<<<< HEAD
       }
+=======
+      },
+      status: {
+        completed: 'مكتمل',
+        processing: 'قيد المعالجة',
+        pending: 'معلق'
+>>>>>>> 85cc2c8f87b6224711140033850a91c38901943b
       },
       timeAgo: {
         '2min': 'منذ دقيقتين',
@@ -250,7 +262,11 @@ const resources = {
       // ...add other needed translations
     }
   }
+<<<<<<< HEAD
 ;
+=======
+};
+>>>>>>> 85cc2c8f87b6224711140033850a91c38901943b
 
 i18n
   .use(LanguageDetector)
